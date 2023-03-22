@@ -12,6 +12,7 @@ import com.atguigu.vo.system.MetaVo;
 import com.atguigu.vo.system.RouterVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.activiti.engine.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -34,6 +35,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Autowired
     private SysRoleMenuService roleMenuService;
+
+
 
     /**
      菜单列表接口
@@ -74,6 +77,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> sysMenuList = baseMapper.selectList(wrapper);
         //2.根据角色id roleId查询 角色菜单关系表里面 角色id对应所有的菜单id
         LambdaQueryWrapper<SysRoleMenu> sysRoleMenuLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        sysRoleMenuLambdaQueryWrapper.eq(SysRoleMenu::getRoleId,roleId);
         List<SysRoleMenu> sysRoleMenuList = roleMenuService.list(sysRoleMenuLambdaQueryWrapper);
         //3.根据获取菜单的id，获取对应菜单对象
         List<Long> menuList = sysRoleMenuList.stream()
@@ -130,12 +134,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(SysMenu::getStatus,1).orderByAsc(SysMenu::getSortValue);
             sysMenuList = baseMapper.selectList(queryWrapper);
+        }else{
+            //1.2如果不是管理员，根据userId查询可以操作的菜单列表
+            //多表关联查询：用户角色关系表，角色菜单关系表，菜单表
+            sysMenuList=baseMapper.findMenuListByUserId(userId);
+            //2.把查询出来数据列表构建成框架要求的路由数据结构
+            //使用菜单操作工具类构建树形结构
         }
-        //1.2如果不是管理员，根据userId查询可以操作的菜单列表
-        //多表关联查询：用户角色关系表，角色菜单关系表，菜单表
-        sysMenuList=baseMapper.findMenuListByUserId(userId);
-        //2.把查询出来数据列表构建成框架要求的路由数据结构
-        //使用菜单操作工具类构建树形结构
         List<SysMenu> menuTreeList = MenuHelper.buildTree(sysMenuList);
         //构建成框架要求的路由结构
         List<RouterVo> routerVoList= this.buildRouter(menuTreeList);
@@ -209,6 +214,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         //1.判断当前用户是否是管理员 userId=1是管理员，如果是管理员，查询所有按钮列表
         List<SysMenu> sysMenuList = null;
         if (userId.longValue() == 1){
+            //查询所有菜单
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(SysMenu::getStatus,1);
             sysMenuList = baseMapper.selectList(queryWrapper);

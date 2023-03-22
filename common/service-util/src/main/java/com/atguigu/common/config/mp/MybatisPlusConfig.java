@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @create 2023-03-18 21:00
  */
 @Configuration
-@MapperScan("com.atguigu.auth.mapper")
+@MapperScan(basePackages = {"com.atguigu.auth.mapper","com.atguigu.process.mapper"})
 public class MybatisPlusConfig {
 
 
