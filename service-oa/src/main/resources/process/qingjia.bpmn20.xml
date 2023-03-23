@@ -2,8 +2,8 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
   <process id="qingjia" isExecutable="true">
     <startEvent id="sid-298E8144-4099-440D-B3AC-E5E8C57324D4"></startEvent>
-    <userTask id="sid-F0DAC357-E5D0-4AE0-BFAA-DA8460635AD4" name="张三审批" activiti:assignee="zhangsan"></userTask>
-    <userTask id="sid-0F52D5CC-3FA8-4147-84B3-613A442D39EC" name="李四审批" activiti:assignee="lisi"></userTask>
+    <userTask id="sid-F0DAC357-E5D0-4AE0-BFAA-DA8460635AD4" name="张三审批" activiti:assignee="zhang3"></userTask>
+    <userTask id="sid-0F52D5CC-3FA8-4147-84B3-613A442D39EC" name="李四审批" activiti:assignee="li4"></userTask>
     <endEvent id="sid-6F6AE6C1-A83B-427B-B472-88AFB2A2110F"></endEvent>
     <sequenceFlow id="sid-231785D6-1CAA-4854-9679-AC46DF2EA18B" sourceRef="sid-298E8144-4099-440D-B3AC-E5E8C57324D4" targetRef="sid-F0DAC357-E5D0-4AE0-BFAA-DA8460635AD4"></sequenceFlow>
     <sequenceFlow id="sid-0F554A25-A390-4280-B537-9A6DA6570604" sourceRef="sid-F0DAC357-E5D0-4AE0-BFAA-DA8460635AD4" targetRef="sid-0F52D5CC-3FA8-4147-84B3-613A442D39EC"></sequenceFlow>
