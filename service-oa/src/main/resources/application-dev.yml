@@ -42,3 +42,7 @@ spring:
     history-level: full
     #校验流程文件，默认校验resources下的process 文件夹的流程文件
     check-process-definitions: true
+
+wechat:
+  mpAppId: wxd62c0960c7711714
+  mpAppSecret: 75c502b0a94519c1b85d4df8fa8cd1cd
